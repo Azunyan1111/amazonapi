@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// responseXML to XMLNode
-	xmlNode, err := gmws.GenerateXMLNode(resaponse.Body)
+	xmlNode, err := gmws.GenerateXMLNode(response.Body)
 	if gmws.HasErrors(xmlNode) {
 		log.Println(gmws.GetErrors(xmlNode))
 		return
