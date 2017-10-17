@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-type PriceData struct {
+type StockData struct {
 	ASIN         string
 	Amount       string
 	Channel      string
@@ -55,19 +55,22 @@ func main() {
 	products := xmlNode.FindByKey("GetLowestOfferListingsForASINResult")
 	// products to one product
 	for _, product := range products {
-		// Get all prices
-		prices := product.FindByPath("Product.LowestOfferListings.LowestOfferListing")
-		// prices to one price
+		// Get all stocks
+		stocks := product.FindByPath("Product.LowestOfferListings.LowestOfferListing")
+
 		insertTime := time.Now().Unix()
-		for _, price := range prices {
-			temp := PriceData{
+
+		// stocks to one stock
+		for _, stock := range stocks {
+			temp := StockData{
 				ASIN:         product.FindByPath("Product.Identifiers.MarketplaceASIN.ASIN")[0].Value.(string),
-				Amount:       price.FindByPath("Price.LandedPrice.Amount")[0].Value.(string),
-				Channel:      price.FindByPath("Qualifiers.FulfillmentChannel")[0].Value.(string),
-				Condition:    price.FindByPath("Qualifiers.ItemCondition")[0].Value.(string),
-				ShippingTime: price.FindByPath("Qualifiers.ShippingTime.Max")[0].Value.(string),
+				Amount:       stock.FindByPath("Price.LandedPrice.Amount")[0].Value.(string),
+				Channel:      stock.FindByPath("Qualifiers.FulfillmentChannel")[0].Value.(string),
+				Condition:    stock.FindByPath("Qualifiers.ItemCondition")[0].Value.(string),
+				ShippingTime: stock.FindByPath("Qualifiers.ShippingTime.Max")[0].Value.(string),
 				InsertTime:   insertTime,
 			}
+
 			fmt.Println(temp)
 		}
 	}
