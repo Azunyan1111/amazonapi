@@ -42,9 +42,6 @@ func main() {
 		return
 	}
 
-	// XML Parse
-	xmlNode.PrintXML()
-
 	// Get all products
 	products := xmlNode.FindByKey("GetLowestOfferListingsForASINResult")
 	// products to one product
